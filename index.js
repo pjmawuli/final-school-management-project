@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Defining Mongoose schema
+// Defining the Mongoose schema
 const studentSchema = new mongoose.Schema({
     name: { type: String, required: true },
     age: { type: Number, required: true },
@@ -20,6 +20,14 @@ const studentSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now },
 });
 const Student = mongoose.model('Student', studentSchema);
+
+// Connecting to MongoDB database
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+    .then(() => console.log('MongoDB Connected'))
+    .catch(err => console.log(err));
 
 // Defining routes
 app.get('/students/:id', (req, res) => {
