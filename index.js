@@ -17,6 +17,7 @@ const studentSchema = new mongoose.Schema({
     age: { type: Number, required: true },
     course: { type: String, required: true },
     email: { type: String, required: true },
+    id: { type: Number, required: true },
 });
 const Student = mongoose.model('Student', studentSchema);
 
