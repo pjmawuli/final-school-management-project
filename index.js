@@ -45,8 +45,8 @@ app.get('/students/:id', (req, res) => {
 });
 
 app.post('/students', (req, res) => {
-    const { name, age, class: studentClass, email } = req.body;
-    const student = new Student({ name, age, class: studentClass, email });
+    const { name, age, course, email, id } = req.body;
+    const student = new Student({ name, age, course, email, id });
     student.save((err) => {
         if (err) {
             console.error(err);
@@ -56,6 +56,7 @@ app.post('/students', (req, res) => {
         }
     });
 });
+
 
 // Starting the server
 const port = process.env.PORT || 3000;
