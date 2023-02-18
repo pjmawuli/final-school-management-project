@@ -34,8 +34,11 @@ app.get('/students/:id', (req, res) => {
     const { id } = req.params;
     console.log('id:', id);
     try {
-        const objectId = mongoose.Types.ObjectId(id);
-        Student.findById(objectId, (err, student) => {
+        const idNumber = parseInt(id);
+        if (isNaN(idNumber)) {
+            throw new Error();
+        }
+        Student.findOne({ id: idNumber }, (err, student) => {
             if (err) {
                 console.error(err);
                 res.status(500).json({ error: 'Internal server error' });
@@ -50,6 +53,7 @@ app.get('/students/:id', (req, res) => {
         res.status(400).json({ error: 'Invalid ID format' });
     }
 });
+
 
 
 
