@@ -33,18 +33,24 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get('/students/:id', (req, res) => {
     const { id } = req.params;
     console.log('id:', id);
-    Student.findById(id, (err, student) => {
-        if (err) {
-            console.error(err);
-            res.status(500).json({ error: 'Internal server error' });
-        } else if (!student) {
-            res.status(404).json({ error: 'Student not found' });
-        } else {
-            console.log('student:', student);
-            res.json(student);
-        }
-    });
+    try {
+        const objectId = mongoose.Types.ObjectId(id);
+        Student.findById(objectId, (err, student) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Internal server error' });
+            } else if (!student) {
+                res.status(404).json({ error: 'Student not found' });
+            } else {
+                console.log('student:', student);
+                res.json(student);
+            }
+        });
+    } catch (err) {
+        res.status(400).json({ error: 'Invalid ID format' });
+    }
 });
+
 
 
 app.post('/students', (req, res) => {
