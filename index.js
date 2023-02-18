@@ -32,6 +32,7 @@ mongoose.connect(process.env.MONGO_URI, {
 // Defining routes
 app.get('/students/:id', (req, res) => {
     const { id } = req.params;
+    console.log('id:', id);
     Student.findById(id, (err, student) => {
         if (err) {
             console.error(err);
@@ -39,10 +40,12 @@ app.get('/students/:id', (req, res) => {
         } else if (!student) {
             res.status(404).json({ error: 'Student not found' });
         } else {
+            console.log('student:', student);
             res.json(student);
         }
     });
 });
+
 
 app.post('/students', (req, res) => {
     const { name, age, course, email, id } = req.body;
